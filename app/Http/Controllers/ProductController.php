@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ExportProducts;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -85,5 +86,12 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         return redirect()->route('allProducts');
+    }
+
+    public function exportProducts ()
+    {
+        ExportProducts::dispatch();
+        session()->flash('startExportProducts');
+        return back();
     }
 }

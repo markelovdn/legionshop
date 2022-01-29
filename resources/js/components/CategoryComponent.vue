@@ -8,17 +8,12 @@
                 <div class="card" style="width: 18rem;">
                     <img :src="'/storage/img/' + product.picture" class="card-img-top" :alt="product.name">
                     <div class="card-body">
-                        <div>
-                            <h5 class="card-title">
-                                {{product.name}}
-                            </h5>
-                        </div>
-                        <div>
-                            <p class="card-text">
-                                {{ product.description }}
-                            </p>
-                        </div>
-
+                        <h5 class="card-title">
+                            {{product.name}}
+                        </h5>
+                        <p class="card-text">
+                            {{ product.description }}
+                        </p>
                         <div class="card-basket-buttons">
                             <button
                                 v-if="product.quantity > 0"
@@ -60,11 +55,9 @@
         },
         methods: {
             basket (productId, method, quantity) {
-
                 if (method == 'remove' && quantity == 0) {
                     alert('ай яй яй')
                 }
-
                 const params = {
                     id: productId
                 }
@@ -76,7 +69,6 @@
                         this.products[idx].quantity = data.quantity
                         this.$store.dispatch('changeBasketProductsQuantity', data.basketProductsQuantity)
                     })
-
             }
         },
         mounted () {

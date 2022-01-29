@@ -96,6 +96,7 @@ class AdminController extends Controller
 
     public function exportCategories ()
     {
+
         ExportCategories::dispatch();
         session()->flash('startExportCategories');
         return back();

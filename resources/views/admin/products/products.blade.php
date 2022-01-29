@@ -17,7 +17,7 @@
     <div class="content-wrapper">
         <div class="row">
             <a href="{{route('addProducts')}}" class="btn" title="Добавить"><i class="fas fa-plus-square"></i></a>
-            <form method="post" action="{{ route('exportCategories') }}">
+            <form method="post" action="{{ route('exportProducts') }}">
                 @csrf
                 <button type="submit" class="btn" title="выгрузить в CSV"><i class="fas fa-file-import"></i></button>
             </form>

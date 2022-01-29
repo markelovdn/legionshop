@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ExportCategories implements ShouldQueue
+class ExportProducts implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,22 +31,26 @@ class ExportCategories implements ShouldQueue
      */
     public function handle()
     {
-        $categories = Category::get()->toArray();
-        $file = fopen('exportCategories.csv', 'w');
+        $products = Product::get()->toArray();
+        $file = fopen('exportProducts.csv', 'w');
         $columns = [
             'id',
             'name',
             'description',
+            'price',
             'picture',
+            'category_id',
             'created_at',
             'updated_at'
         ];
         fputcsv($file, $columns, ';');
-        foreach ($categories as $category) {
-            $category['name'] = iconv('utf-8', 'windows-1251//IGNORE', $category['name']);
-            $category['description'] = iconv('utf-8', 'windows-1251//IGNORE', $category['description']);
-            $category['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $category['picture']);
-            fputcsv($file, $category, ';');
+        foreach ($products as $product) {
+            $product['name'] = iconv('utf-8', 'windows-1251//IGNORE', $product['name']);
+            $product['description'] = iconv('utf-8', 'windows-1251//IGNORE', $product['description']);
+            $product['price'] = iconv('utf-8', 'windows-1251//IGNORE', $product['price']);
+            $product['category_id'] = iconv('utf-8', 'windows-1251//IGNORE', $product['category_id']);
+            $product['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $product['picture']);
+            fputcsv($file, $product, ';');
         }
         fclose($file);
     }

@@ -81,6 +81,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/addProducts', [ProductController::class, 'addProduct'])->name('addProducts');
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/delProduct/{id}', [ProductController::class, 'delProduct'])->name('delProduct');
+    Route::post('/exportProducts', [ProductController::class, 'exportProducts'])->name('exportProducts');
 
 
 

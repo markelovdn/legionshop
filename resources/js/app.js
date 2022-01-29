@@ -4,8 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Vue from "vue";
-
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -26,6 +24,9 @@ Vue.component('home-component', require('./components/HomeComponent.vue').defaul
 Vue.component('category-component', require('./components/CategoryComponent.vue').default);
 Vue.component('basket-component', require('./components/BasketComponent.vue').default);
 Vue.component('navbar-basket-component', require('./components/NavBarBasketComponent.vue').default);
+Vue.component('password-component', require('./components/PasswordComponent.vue').default);
+Vue.component('address-component', require('./components/AddressComponent.vue').default);
+Vue.component('main-info-profile-component', require('./components/MainInfoProfileComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

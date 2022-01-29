@@ -49,8 +49,8 @@ class HomeController extends Controller
     {
         // Auth::loginUsingId(1);
         $user = Auth::user();
-        // $addresses = Address::where('user_id', $user->id)->get();
-        return view('profile', compact('user'));
+         $addresses = Address::where('user_id', $user->id)->get();
+        return view('profile', compact('user', 'addresses'));
     }
 
     public function profileUpdate (Request $request)
@@ -85,16 +85,19 @@ class HomeController extends Controller
             $user->picture = $fileName;
         }
 
-        $address = Address::find($input['main_address']);
-        $address->main = 1;
-        $address->save();
-        Address::where('user_id', $user->id)->where('id', '!=', $input['main_address'])->update([
-            'main' => 0
-        ]);
+        if (isset($input['main_address'])) {
+            $address = Address::find($input['main_address']);
+            $address->main = 1;
+            $address->save();
+            Address::where('user_id', $user->id)->where('id', '!=', $input['main_address'])->update([
+                'main' => 0
+            ]);
+        }
+
 
         if ($input['new_address']) {
 
-            if (isset($input['main_new_address'])) {
+            if ($input['main_new_address']) {
                 Address::where('user_id', $user->id)->update([
                     'main' => 0
                 ]);
