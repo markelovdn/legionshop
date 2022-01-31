@@ -55,9 +55,15 @@
                 </tbody>
             </table>
 
+
             @if (session('startExportCategories'))
                 <div class="alert alert-success">
                     Выгрузка категорий запущена
+                </div>
+            @endif
+            @if (session('startImportCategories'))
+                <div class="alert alert-success">
+                    Загрузка категорий запущена
                 </div>
             @endif
     </div>
@@ -65,4 +71,5 @@
 
 @section('footer')
     @include('admin.layouts.parts.footer')
+
 @endsection

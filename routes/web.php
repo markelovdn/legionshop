@@ -88,4 +88,5 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/delProduct/{id}', [ProductController::class, 'delProduct'])->name('delProduct');
     Route::post('/exportProducts', [ProductController::class, 'exportProducts'])->name('exportProducts');
+    Route::post('/importProducts', [ProductController::class, 'importProducts'])->name('importProducts');
 });

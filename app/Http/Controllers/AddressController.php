@@ -44,7 +44,7 @@ class AddressController extends Controller
             $address->main = false;
             $address->save();
         }
-        return $user->addresses;
+        return $user->addresses()->get();
 //        return $this->getAddress();
     }
 

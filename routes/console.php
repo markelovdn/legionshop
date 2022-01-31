@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product;
+use Carbon\Traits\Creator;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Inspiring;
 use App\Models\Category;
@@ -51,7 +53,7 @@ Artisan::command('queryBuilder', function () {
 });
 
 Artisan::command('updateCategory', function () {
-    
+
     Auth::loginUsingId(1);
     $procs = Category::where('name', 'Процессоры')->first();
 
@@ -80,7 +82,7 @@ Artisan::command('createCategory', function () {
 });
 
 Artisan::command('createRolesUsers', function () {
-    
+
     // collect(['Admin', 'Manager', 'Customer'])->each(function ($role, $idx) {
     //     $role = new Role([
     //         'name' => $role
@@ -186,6 +188,70 @@ Artisan::command('importCategories', function () {
     Category::insert($insert);
 });
 
+Artisan::command('exportProducts', function () {
+    $products = Product::get()->toArray();
+
+//    $products = $products->map(function ($product) {
+//        $product->category_id = $product->category->name;
+//        return $product;
+//    })->toArray();
+
+
+    $file = fopen('exportProducts.csv', 'w');
+    $columns = [
+        'id',
+        'name',
+        'description',
+        'price',
+        'picture',
+        'category_id',
+        'created_at',
+        'updated_at'
+    ];
+    fputcsv($file, $columns, ';');
+    foreach ($products as $product) {
+        $product['name'] = iconv('utf-8', 'windows-1251//IGNORE', $product['name']);
+        $product['description'] = iconv('utf-8', 'windows-1251//IGNORE', $product['description']);
+        $product['price'] = iconv('utf-8', 'windows-1251//IGNORE', $product['price']);
+        $product['category_id'] = iconv('utf-8', 'windows-1251//IGNORE', $product['category_id']);
+        $product['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $product['picture']);
+        fputcsv($file, $product, ';');
+    }
+    fclose($file);
+});
+
+Artisan::command('importProducts', function () {
+    $fileName = 'products.csv';
+    $file = fopen($fileName, 'r');
+
+    $carbon = new Carbon();
+    $now = $carbon->now()->toDateTimeString();
+
+    $i = 0;
+    $insert = [];
+    while ($data = fgetcsv($file, 1000, ';')) {
+
+        if ($i++ == 0) continue;
+        $id = $data[0];
+        if (empty($id)){
+            $id = null;
+        }
+        $insert[] = [
+            'id' => $data[0],
+            'name' => $data[1],
+            'description' => $data[2],
+            'price' => $data[3],
+            'picture' => $data[4],
+            'category_id' => $data[5],
+            'created_at' => $now,
+            'updated_at' => $now
+        ];
+    }
+
+    Product::upsert($insert, ['id'], ['name', 'description', 'price', 'picture', 'category_id']);
+    fclose($file);
+});
+
 Artisan::command('test', function () {
 
     $numbers = collect([1, 2, 3]);
@@ -258,7 +324,10 @@ Artisan::command('inspire', function () {
 
     Category::where('id', '<', 4)->update([
         'picture' => '4.jpg'
-    ]);    
+    ]);
 
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+
+

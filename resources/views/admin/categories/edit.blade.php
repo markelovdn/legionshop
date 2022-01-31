@@ -20,7 +20,7 @@
             <div class="card-body">
             <div class="form-group">
                 <label for="exampleInputEmail1">Наименование</label>
-                <input type="text" name="id" value="{{$category->id}}" class="form-control" autocomplete="on">
+                <input type="text" name="id" value="{{$category->id}}" class="form-control" style="display:none;" autocomplete="on">
                 <input type="text" name="name" value="{{$category->name}}" class="form-control" autocomplete="on">
             </div>
             <div class="form-group">

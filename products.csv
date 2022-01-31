@@ -1,4 +1,6 @@
-name;description;price;picture
-Оперативная память;DDR3, DDR4;123;nocategory.png
-Материнская плата;11151,1152;123;nocategory.png
-Корпус;Deepcool, Aerocool;123;nocategory.png
+id;name;description;price;picture;category_id
+1;Gigabyte2312 B450M S2H, SocketAM4, AMD B450, mATX, Ret;123456;4560;/products/16433511105975.jpg;2
+3;BenQ Zowie XL2411P 24;123;19900;/products/16433535529514.jpg;4
+4;Patriot Viper Steel PVS416G360C7K DDR4 - 2x 8 3600, DIMM, Ret;123;7190;/products/16433548579096.jpg;1
+5;Supermicro CSE-732I-668B, 668;123;28240;/products/16433549859152.jpg;3
+6;Crucial CT8G4DFS824A DDR4 - 8 2400, DIMM, Ret;2123;2890;/products/16433561123318.jpg;1

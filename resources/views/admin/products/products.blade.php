@@ -21,22 +21,20 @@
                     @csrf
                     <button type="submit" class="btn" title="выгрузить в CSV"><i class="fas fa-file-import"></i></button>
                 </form>
-                <form method="post" action="#">
+                <form method="post" action="{{ route('importProducts') }}">
                     @csrf
                     <button type="submit" class="btn" title="загрузить из CSV"><i class="fas fa-file-export"></i></button>
                 </form>
-            <div class="col mt-2"> <label for="">Выбрать категорию</label>
-                <form method="get" action="{{ route('allProducts') }}">
-                <select name="category">
-                    @foreach($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option>
-                    @endforeach
-                </select>
-                    <button type="submit">Выбрать</button>
-                </form>
-            </div>
-
-
+{{--            <div class="col mt-2"> <label for="">Выбрать категорию</label>--}}
+{{--                <form method="get" action="{{ route('allProducts') }}">--}}
+{{--                <select name="category">--}}
+{{--                    @foreach($categories as $category)--}}
+{{--                    <option value="{{$category->id}}">{{$category->name}}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--                    <button type="submit">Выбрать</button>--}}
+{{--                </form>--}}
+{{--            </div>--}}
         </div>
         <table class="table table-borderd">
             <table class="table table-borderd mb-5">
@@ -45,6 +43,7 @@
                 <th>Наименование</th>
                 <th>Описание</th>
                 <th>Цена</th>
+                <th>Категория</th>
                 <th>Редактировать</th>
                 <th>Удалить</th>
                 <tbody>
@@ -55,6 +54,7 @@
                         <td>{{$product->name}}</td>
                         <td>{{$product->description}}</td>
                         <td>{{$product->price}}</td>
+                        <td>{{$product->category->name}}</td>
                         <td><a href="{{ route('editProduct', $product->id) }}" class="btn">
                                 <i class="nav-icon fas fa-edit"></i>
                             </a></td>
@@ -65,6 +65,13 @@
                 @endforeach
                 </tbody>
             </table>
+
+            @if (session('startExportProducts'))
+                <div class="alert alert-success">Выгрузка товаров запущена</div>
+            @endif
+            @if (session('startImportProducts'))
+                <div class="alert alert-success">Загрузка товаров запущена</div>
+            @endif
     </div>
 @endsection
 

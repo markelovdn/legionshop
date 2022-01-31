@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ExportProducts;
 use App\Jobs\ImportCategory;
+use App\Jobs\ImportProducts;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -97,10 +98,10 @@ class ProductController extends Controller
         return back();
     }
 
-//    public function importProducts ()
-//    {
-//        ImportCategory::dispatch();
-//        session()->flash('startExportProducts');
-//        return back();
-//    }
+    public function importProducts ()
+    {
+        ImportProducts::dispatch();
+        session()->flash('startImportProducts');
+        return back();
+    }
 }

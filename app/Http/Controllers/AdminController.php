@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\ExportCategories;
 use App\Jobs\ImportCategory;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,8 @@ class AdminController extends Controller
     public function index ()
     {
         $users = User::get();
-        return view('admin.index', compact('users'));
+        $orders = Order::get();
+        return view('admin.index', compact('users', 'orders'));
     }
 
     public function allUsers ()
@@ -105,7 +107,7 @@ class AdminController extends Controller
     public function importCategories ()
     {
         ImportCategory::dispatch();
-        session()->flash('startExportCategories');
+        session()->flash('startImportCategories');
         return back();
     }
 
