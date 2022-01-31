@@ -25,9 +25,9 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Новый адрес</label>
-                                <input v-model="address" class="form-control">
+                                <input v-model="newAddress" class="form-control">
                                 <label>Сделать основным</label>
-                                <input type="checkbox">
+                                <input v-model="mainAddress" type="checkbox">
                                 <br>
                                 <button @click="submit" class="btn btn-primary">Сохранить</button>
                             </div>
@@ -42,29 +42,50 @@
 <script>
 export default {
     name: "AddressComponent",
-    props: ['addresses', 'user'],
+    props: ['user', 'newAddress', 'mainAddress'],
     data () {
         return {
-            address: []
+            addresses: []
         }
     },
     methods: {
         submit () {
             const params = {
                 userId: this.user.id,
-                address: this.address,
+                address: this.newAddress,
+                mainAddress: this.mainAddress,
             }
-            axios.post('/profile/update', params)
+            axios.post('/home/profile/newAddress', params)
+                .then((response) => {
+                    this.$swal({
+                        title: 'Адрес успешно добавлен!',
+                        icon: 'success',
+                        confirmButtonText: 'ОК'
+                    })
+                    console.log(response)
+                    this.addresses = response.data
+                })
                 .catch(error => {
 
                 })
                 .finally(() => {
-                    console.log(this.address)
+                    console.log(this.addresses),
+                    this.newAddress = "";
+                    this.mainAddress = false;
                 })
         }
     },
     mounted() {
-        console.log(this.user)
+        axios.get(`/home/profile/getAddress`)
+            .then(response => {
+                this.addresses = response.data
+            })
+            .catch(error => {
+
+            })
+            .finally(() => {
+            console.log(this.addresses)
+            })
     }
 }
 </script>

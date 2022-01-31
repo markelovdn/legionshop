@@ -21,7 +21,7 @@
                 @csrf
                 <button type="submit" class="btn" title="выгрузить в CSV"><i class="fas fa-file-import"></i></button>
             </form>
-            <form method="post" action="#">
+            <form method="post" action="{{ route('importCategories') }}">
                 @csrf
                 <button type="submit" class="btn" title="загрузить из CSV"><i class="fas fa-file-export"></i></button>
             </form>

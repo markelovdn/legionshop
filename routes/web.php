@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CategoryController;
@@ -29,6 +30,9 @@ Route::prefix('home')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/profile', [HomeController::class, 'profile'])->middleware('auth')->name('profile');
     Route::post('/profile/update', [HomeController::class, 'profileUpdate'])->name('profileUpdate');
+    Route::post('/profile/newAddress', [AddressController::class, 'newAddress']);
+    Route::get('/profile/getAddress', [AddressController::class, 'getAddress']);
+    Route::get('/profile/updateAddress/{id}', [AddressController::class, 'updateAddress']);
 });
 
 Route::prefix('basket')->group(function () {
@@ -41,6 +45,7 @@ Route::prefix('basket')->group(function () {
 });
 
 Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+Route::get('/order/{id}', [OrderController::class, 'reOrder'])->name('reOrder');
 
 
 // Route::any('/{any}', function () {
@@ -73,6 +78,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/storeCategory', [AdminController::class, 'storeCategory'])->name('storeCategory');
     Route::view('/addCategory', 'admin.categories.add')->name('addCategory');
     Route::post('/exportCategories', [AdminController::class, 'exportCategories'])->name('exportCategories');
+    Route::post('/importCategories', [AdminController::class, 'importCategories'])->name('importCategories');
     Route::get('/delCategory/{id}', [AdminController::class, 'delCategory'])->name('delCategory');
 
     Route::get('/products', [ProductController::class, 'products'])->name('allProducts');
@@ -82,8 +88,4 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/delProduct/{id}', [ProductController::class, 'delProduct'])->name('delProduct');
     Route::post('/exportProducts', [ProductController::class, 'exportProducts'])->name('exportProducts');
-
-
-
-
 });

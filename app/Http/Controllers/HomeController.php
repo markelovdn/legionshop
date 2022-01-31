@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,42 +85,7 @@ class HomeController extends Controller
             $file->storeAs('public/img/users', $fileName);
             $user->picture = $fileName;
         }
-
-        if (isset($input['main_address'])) {
-            $address = Address::find($input['main_address']);
-            $address->main = 1;
-            $address->save();
-            Address::where('user_id', $user->id)->where('id', '!=', $input['main_address'])->update([
-                'main' => 0
-            ]);
-        }
-
-
-        if ($input['new_address']) {
-
-            if ($input['main_new_address']) {
-                Address::where('user_id', $user->id)->update([
-                    'main' => 0
-                ]);
-                $mainAddress = true;
-            } else {
-                $mainAddress = !$user->addresses->contains(function ($address) {
-                    return $address->main == true;
-                });
-            }
-
-
-            $address = new Address();
-            $address->user_id = $user->id;
-            $address->address = $input['new_address'];
-            $address->main = $mainAddress;
-            $address->save();
-        }
-
-        $user->name = $input['name'];
-        $user->email = $input['email'];
-        $user->save();
-        session()->flash('profileUpdated');
-        return back();
     }
+
+
 }

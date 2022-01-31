@@ -26,7 +26,7 @@
             </div>
         @endif
             <main-info-profile-component :user="{{$user}}"></main-info-profile-component>
-            <address-component :addresses="{{$addresses}}" :user="{{$user}}"></address-component>
+            <address-component :user="{{$user}}"></address-component>
             <password-component></password-component>
     </div>
 @endsection

@@ -16,18 +16,28 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <div class="row">
-            <a href="{{route('addProducts')}}" class="btn" title="Добавить"><i class="fas fa-plus-square"></i></a>
-            <form method="post" action="{{ route('exportProducts') }}">
-                @csrf
-                <button type="submit" class="btn" title="выгрузить в CSV"><i class="fas fa-file-import"></i></button>
-            </form>
-            <form method="post" action="#">
-                @csrf
-                <button type="submit" class="btn" title="загрузить из CSV"><i class="fas fa-file-export"></i></button>
-            </form>
+                <a href="{{route('addProducts')}}" class="btn" title="Добавить"><i class="fas fa-plus-square"></i></a>
+                <form method="post" action="{{ route('exportProducts') }}">
+                    @csrf
+                    <button type="submit" class="btn" title="выгрузить в CSV"><i class="fas fa-file-import"></i></button>
+                </form>
+                <form method="post" action="#">
+                    @csrf
+                    <button type="submit" class="btn" title="загрузить из CSV"><i class="fas fa-file-export"></i></button>
+                </form>
+            <div class="col mt-2"> <label for="">Выбрать категорию</label>
+                <form method="get" action="{{ route('allProducts') }}">
+                <select name="category">
+                    @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                </select>
+                    <button type="submit">Выбрать</button>
+                </form>
+            </div>
+
+
         </div>
-
-
         <table class="table table-borderd">
             <table class="table table-borderd mb-5">
                 <th>ID</th>

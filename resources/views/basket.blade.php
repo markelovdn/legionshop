@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-
         <basket-component
             :products="{{$products}}"
             route-login="{{route('login')}}"

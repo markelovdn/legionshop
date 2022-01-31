@@ -37,6 +37,7 @@ class BasketController extends Controller
                 'quantity' => $quantity
             ];
         })->values();
+//        dd($products);
 
         return view('basket', compact('products', 'mainAddress', 'email', 'name'));
     }
@@ -178,7 +179,7 @@ class BasketController extends Controller
                 $input = null;
             }
         }
- 
+
         return $input ? substr(str_shuffle($input), 0, $lenght) : null;
     }
 }

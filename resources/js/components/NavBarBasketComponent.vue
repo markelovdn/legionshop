@@ -1,6 +1,6 @@
 <template>
     <li class="nav-item">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="/basket">
             Корзина {{ quantity }}
         </a>
     </li>

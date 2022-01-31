@@ -5305,10 +5305,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AddressComponent",
-  props: ['addresses', 'user'],
+  props: ['user', 'newAddress', 'mainAddress'],
   data: function data() {
     return {
-      address: []
+      addresses: []
     };
   },
   methods: {
@@ -5317,15 +5317,32 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = {
         userId: this.user.id,
-        address: this.address
+        address: this.newAddress,
+        mainAddress: this.mainAddress
       };
-      axios.post('/profile/update', params)["catch"](function (error) {})["finally"](function () {
-        console.log(_this.address);
+      axios.post('/home/profile/newAddress', params).then(function (response) {
+        _this.$swal({
+          title: 'Адрес успешно добавлен!',
+          icon: 'success',
+          confirmButtonText: 'ОК'
+        });
+
+        console.log(response);
+        _this.addresses = response.data;
+      })["catch"](function (error) {})["finally"](function () {
+        console.log(_this.addresses), _this.newAddress = "";
+        _this.mainAddress = false;
       });
     }
   },
   mounted: function mounted() {
-    console.log(this.user);
+    var _this2 = this;
+
+    axios.get("/home/profile/getAddress").then(function (response) {
+      _this2.addresses = response.data;
+    })["catch"](function (error) {})["finally"](function () {
+      console.log(_this2.addresses);
+    });
   }
 });
 
@@ -36078,25 +36095,61 @@ var render = function () {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.address,
-                            expression: "address",
+                            value: _vm.newAddress,
+                            expression: "newAddress",
                           },
                         ],
                         staticClass: "form-control",
-                        domProps: { value: _vm.address },
+                        domProps: { value: _vm.newAddress },
                         on: {
                           input: function ($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.address = $event.target.value
+                            _vm.newAddress = $event.target.value
                           },
                         },
                       }),
                       _vm._v(" "),
                       _c("label", [_vm._v("Сделать основным")]),
                       _vm._v(" "),
-                      _c("input", { attrs: { type: "checkbox" } }),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.mainAddress,
+                            expression: "mainAddress",
+                          },
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.mainAddress)
+                            ? _vm._i(_vm.mainAddress, null) > -1
+                            : _vm.mainAddress,
+                        },
+                        on: {
+                          change: function ($event) {
+                            var $$a = _vm.mainAddress,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.mainAddress = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.mainAddress = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.mainAddress = $$c
+                            }
+                          },
+                        },
+                      }),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
@@ -37042,7 +37095,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", { staticClass: "nav-item" }, [
-    _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+    _c("a", { staticClass: "nav-link", attrs: { href: "/basket" } }, [
       _vm._v("\n        Корзина " + _vm._s(_vm.quantity) + "\n    "),
     ]),
   ])

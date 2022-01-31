@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ExportProducts;
+use App\Jobs\ImportCategory;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class ProductController extends Controller
     public function products ()
     {
         $products = Product::get();
-        return view('admin.products.products', compact('products'));
+        $categories = Category::all();
+        return view('admin.products.products', compact('products', 'categories'));
     }
 
     public function addProduct ()
@@ -94,4 +96,11 @@ class ProductController extends Controller
         session()->flash('startExportProducts');
         return back();
     }
+
+//    public function importProducts ()
+//    {
+//        ImportCategory::dispatch();
+//        session()->flash('startExportProducts');
+//        return back();
+//    }
 }

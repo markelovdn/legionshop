@@ -48,6 +48,7 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <navbar-basket-component></navbar-basket-component>
 
                         <!-- Authentication Links -->
                         @guest

@@ -18,6 +18,7 @@
                             </li>
                         @endforeach
                     </ul>
+                    <a href="{{route('reOrder', $order->id)}}" class="btn btn-success">Повторить заказ</a>
                 </div>
             </div>
         @endforeach
