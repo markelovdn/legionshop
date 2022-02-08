@@ -118,4 +118,9 @@ class AdminController extends Controller
         return back();
     }
 
+    public function users ()
+    {
+        return User::paginate(2);
+    }
+
 }

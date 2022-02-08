@@ -28,10 +28,12 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
+    <div id="app">
     @yield('header')
     @yield('navbar')
     @yield('sidebar')
     @yield('content')
+    </div>
 </div>
 
 

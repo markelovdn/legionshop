@@ -2,12 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Events\CategoriesExportFinishEvent;
 use App\Models\Category;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ExportCategories implements ShouldQueue
 {
@@ -15,13 +17,16 @@ class ExportCategories implements ShouldQueue
 
     public $tries = 2;
 
+    public $exportColumns;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($exportColumns = true)
     {
+        $this->exportColumns = $exportColumns;
     }
 
     /**
@@ -32,22 +37,26 @@ class ExportCategories implements ShouldQueue
     public function handle()
     {
         $categories = Category::get()->toArray();
-        $file = fopen('exportCategories.csv', 'w');
-        $columns = [
-            'id',
-            'name',
-            'description',
-            'picture',
-            'created_at',
-            'updated_at'
-        ];
-        fputcsv($file, $columns, ';');
+        Storage::delete('/public/exportCategories.csv');
+
+        if ($this->exportColumns) {
+            $columns = [
+                'id',
+                'name',
+                'description',
+                'picture',
+                'created_at',
+                'updated_at'
+            ];
+            Storage::append('/public/exportCategories.csv', implode(';', $columns));
+        }
+
         foreach ($categories as $category) {
             $category['name'] = iconv('utf-8', 'windows-1251//IGNORE', $category['name']);
             $category['description'] = iconv('utf-8', 'windows-1251//IGNORE', $category['description']);
             $category['picture'] = iconv('utf-8', 'windows-1251//IGNORE', $category['picture']);
-            fputcsv($file, $category, ';');
+            Storage::append('/public/exportCategories.csv', implode(';', $category));
         }
-        fclose($file);
+        event(new CategoriesExportFinishEvent('exportCategories.csv'));
     }
 }

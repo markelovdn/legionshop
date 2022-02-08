@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use Carbon\Traits\Creator;
+use App\Events\CategoriesExportFinishEvent;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Inspiring;
 use App\Models\Category;
@@ -21,6 +22,10 @@ use Illuminate\Support\Facades\DB;
 | simple approach to interacting with each command's IO methods.
 |
 */
+Artisan::command('event', function () {
+    event(new CategoriesExportFinishEvent('test'));
+
+});
 
 Artisan::command('queryBuilder', function () {
 
